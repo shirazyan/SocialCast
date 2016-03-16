@@ -33,6 +33,7 @@ h5{
 }
 p{
 	font-family: 'Open Sans', sans-serif;
+	padding: 20px;
 }
 p.intro{
 	font-size: 16px;
@@ -176,6 +177,24 @@ ul.about-list li{
 }
 ul.about-list li span{ 
 	margin-right: 10px;
+}
+
+/* Charts Section */
+#tf-charts{
+
+	margin: 0 auto;
+	padding: 80px 0;
+	background-position: center;
+	
+}
+
+#tf-charts .section-title.center{
+	padding: 30px 0;
+}
+
+#chart{
+	background-position: center;
+	margin: 0 auto;
 }
 
 /* Team Section */
@@ -569,3 +588,4 @@ nav#footer p{
 	background: #FCAC45;
 	border-color: #FCAC45;
 	color: #ffffff;
+}
