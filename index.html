@@ -61,6 +61,7 @@
             <li><a href="#tf-home" class="page-scroll">Home</a></li>
             <li><a href="#tf-about" class="page-scroll">About</a></li>
             <li><a href="#tf-twittermap" class="page-scroll">Twitter Map</a></li>
+			<li><a href="#tf-charts" class="page-scroll">Charts</a><li>
             <li><a href="#tf-services" class="page-scroll">Trending</a></li>
 
               <!--
@@ -206,14 +207,6 @@
         
         <iframe width="100%" height="900px" src="twittermap.html" name="iframe_a"></iframe>
         
-        
-        
-        
-        
-        
-        
-        
-        
   </div>  
       
     <!-- END - Twitter Map
@@ -221,6 +214,119 @@
       
     
       
+	  
+	<!--Charts Section 
+	=============================================-->
+	
+	<div id="tf-charts" class-"text-center">
+		<div class="container">
+			<div class="section-title center">
+				<h2><strong>Chart</strong> out the future.</h2>
+				
+				<script type="text/javascript" src="http://mbostock.github.com/d3/d3.js?2.1.3"></script>
+				<script type="text/javascript" src="http://mbostock.github.com/d3/d3.geom.js?2.1.3"></script>
+				<script type="text/javascript" src="http://mbostock.github.com/d3/d3.layout.js?2.1.3"></script>
+				
+				<div>
+					<p>
+						<center>How does America feel about
+							<select name="candidates">
+							  <option value="hillary">Hillary Clinton</option>
+							  <option value="bernie">Bernie Sanders</option>
+							  <option value="donald">Donald Trump</option>
+							  <option value="ben">Ben Carson</option>
+							  <option value="ted">Ted Cruz</option>
+							  <option value="john">John Kasich</option>
+							  <option value="marco">Marco Rubio</option>
+							</select> ?
+						</center>
+					</p>
+				</div>
+				
+				<div id="chart" style="text-align:center;">
+					<script type="text/javascript">
+					
+						var w = 400,                        //width
+						h = 400,                            //height
+						r = h/2,                            //radius
+						color = d3.scale.category20c();     //builtin range of colors
+						
+						
+						//pie chart outer box dimensions
+						//bigger to allow room for hover transitions
+						var w2 = 600,
+						h2 = 600,
+						r2 = h2/2;
+						
+						var data = [{"label":"one", "value":70}, 
+									{"label":"two", "value":20}, 
+									{"label":"three", "value":10}];
+						
+						var vis = d3.select("#chart")
+							.append("svg:svg")     
+							.data([data])          
+								.attr("width", w2)  
+								.attr("height", h2)
+							.append("svg:g")       
+								.attr("transform", "translate(" + r2 + "," + r2 + ")");
+						var pie = d3.layout.pie().value(function(d){return d.value;});
+						
+						//declare arc generator function 
+						var arc = d3.svg.arc()              
+							.outerRadius(r);
+  
+						//select paths, use arc generator to draw
+						var arcs = vis.selectAll("g.slice")     
+							.data(pie)          
+							.enter()            
+								.append("svg:g")
+									.attr("class", "slice");    
+									
+							arcs.append("svg:path")
+									.attr("fill", function(d, i) { return color(i); 
+									}) 
+									.attr("d", function(d){
+										console.log(arc(d));
+										return arc(d);
+									})
+							.on("mouseenter", function(d){
+							
+									var endAngle = d.endAngle;
+									var startAngle = d.startAngle;
+										
+										var arcOver = d3.svg.arc()
+								.outerRadius(r + 15).endAngle(endAngle).startAngle(startAngle);
+									
+									d3.select(this)
+										.attr("stroke","white")
+										.transition()
+										.duration(500)
+										.attr("d",arcOver)
+										.attr("stroke-width", 5);
+							})
+							.on("mouseleave", function(d){
+								d3.select(this).transition()
+									.attr("d", arc)
+									.attr("stroke","none");
+							})
+							arcs.append("svg:text")                                     
+									.attr("transform", function(d) {              
+									d.innerRadius = 0;
+									d.outerRadius = r;
+									return "translate(" + arc.centroid(d) + ")";        
+								})
+								.attr("text-anchor", "middle")                         
+								.text(function(d, i) { return data[i].label; });        
+					</script>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	
+	<!--END - Charts Section
+	=============================================-->
+	  
       
       
       
@@ -483,7 +589,13 @@
 	<script src="js/topojson.min.js"></script>
 	<script src="js/twemoji.min.js"></script>
 	<script src="js/app.min.js"></script>
-      
+    
+	<!-- D3 Script -->
+
+	<script src="http://d3js.org/d3.v3.min.js"</script>
+	
+	<!--END D3 Script-->
+	
     <!-- Tracking -->
 	<script>
 	piAId='29622';
@@ -506,8 +618,8 @@
 	</script>
       
     <!-- END - PubNub scripts --
-    ============================================== -->  
-      
+    ==============================================-->  
+    
 
   </body>
 </html>
